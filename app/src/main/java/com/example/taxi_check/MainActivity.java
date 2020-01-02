@@ -21,10 +21,9 @@ import java.net.URL;
 public class MainActivity extends AppCompatActivity {
     CheckBox checkBox;
 
-    public void getWeather(View view){
+    public void getInfo(View view){
         DownloadTask task = new DownloadTask();
         task.execute("https://www.gdansk.pl/files/xml/wykaz-taksowek-z-licencjami.json");
-//        weatherTextView.setText();
     }
 
     @Override
@@ -33,9 +32,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         checkBox = findViewById(R.id.checkBox);
-//        checkBox.setText("Numer boczny");
 
-//        getWeather();
     }
 
     public void isChecked(View view){
