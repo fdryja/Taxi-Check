@@ -32,18 +32,20 @@ public class MainActivity extends AppCompatActivity {
     TextView dataLicencjiTextView;
     TextView nipTextview;
     EditText editText;
+    String info = "";
+    boolean checked = false;
 
     public void getInfo(View view){
         GetInfo task = new GetInfo();
         task.execute();
+        info = String.valueOf(editText.getText()).toUpperCase().replaceAll("\\s","");
+
     }
 
 
     public class GetInfo extends AsyncTask<Void, Void, Void>{
 
         String data = "";
-        String dataParsed = "www";
-        String name = "";
         String numerRej = "";
         String numerBoczny = "";
         String numerLicencji = "";
@@ -75,22 +77,37 @@ public class MainActivity extends AppCompatActivity {
                 for (int i = 0; i<JW.length(); i++){
                     JSONObject JO = JW.getJSONObject(i);
 
-                    numerBoczny = JO.getString("numerBoczny");
-
+                    numerBoczny = JO.getString("numerBoczny").toUpperCase().replaceAll("\\s","");
+                    numerRej = JO.getString("numerRejestracyjny").toUpperCase().replaceAll("\\s","");
+//                    Log.i("Message",numerRej);
+//                    numerRej.replaceAll("\\s","");
 //                    Log.i("Wyjście1", JO.getString("password"));
 
-                    if(numerBoczny.equals("2106")){
+                    //Na numer boczny
+                    if(checked) {
+                        if (numerBoczny.equals(info)) {
+                            numerRej = JO.getString("numerRejestracyjny");
+                            numerBoczny = JO.getString("numerBoczny");
+                            numerLicencji = JO.getString("numerLicencji");
+                            dataLicencji = JO.getString("dataLicencji");
+                            nip = JO.getString("nip");
+                            break;
+                        }
+                    }else {
 
-                        numerRej = JO.getString("numerRejestracyjny");
-                        numerBoczny = JO.getString("numerBoczny");
-                        numerLicencji = JO.getString("numerLicencji");
-                        dataLicencji = JO.getString("dataLicencji");
-                        nip = JO.getString("nip");
+                        //Na numer rejestracyjny
+                        if (numerRej.equals(info)) {
+
+                            numerRej = JO.getString("numerRejestracyjny");
+                            numerBoczny = JO.getString("numerBoczny");
+                            numerLicencji = JO.getString("numerLicencji");
+                            dataLicencji = JO.getString("dataLicencji");
+                            nip = JO.getString("nip");
+                            break;
+                        }
                     }
-
                 }
 
-                //Na numer rejestracyjny
 
 
 
@@ -107,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid){
             super.onPostExecute(aVoid);
-//            textView.setText(dataParsed);
+            textView.setText(info);
             numerRejestracyjnyTextView.setText(numerRej);
             numerBocznyTextView.setText(numerBoczny);
             numerLicencjiTextView.setText(numerLicencji);
@@ -136,9 +153,11 @@ public class MainActivity extends AppCompatActivity {
         if(checkBox.isChecked()){
             checkBox.setText("Number boczny");
             editText.setHint("Number boczny");
+            checked = true;
         }else {
             checkBox.setText("Numer rejestracyjny");
             editText.setHint("Number rejestracyjny");
+            checked = false;
         }
     }
 
