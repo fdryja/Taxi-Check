@@ -2,13 +2,21 @@ package com.example.taxi_check;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.hardware.input.InputManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.transition.Fade;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.animation.TranslateAnimation;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,11 +40,17 @@ public class MainActivity extends AppCompatActivity {
     TextView nipTextview;
     EditText editText;
     String info = "";
+    TextView nrejTextView;
+    TextView nboczTextView;
+    TextView nlicTextView;
+    TextView dlicTextView;
+    TextView nTextView;
 
 
     public void getInfo(View view){
         GetInfo task = new GetInfo();
         task.execute();
+
         info = String.valueOf(editText.getText()).toUpperCase().replaceAll("\\s","");
 
     }
@@ -50,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         String numerLicencji = "";
         String dataLicencji = "";
         String nip = "";
+        int foundOne=0;
 
 
         @Override
@@ -66,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
                     line = bufferedReader.readLine();
                     data = data + line;
                 }
+
 
 
 
@@ -86,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
                         numerLicencji = JO.getString("numerLicencji");
                         dataLicencji = JO.getString("dataLicencji");
                         nip = JO.getString("nip");
+                        foundOne++;
                         break;
                     }
 
@@ -104,12 +121,29 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid){
             super.onPostExecute(aVoid);
+            InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+
+
+            if(foundOne==1){
+
             textView.setText(info);
             numerRejestracyjnyTextView.setText(numerRej);
             numerBocznyTextView.setText(numerBoczny);
             numerLicencjiTextView.setText(numerLicencji);
             dataLicencjiTextView.setText(dataLicencji);
             nipTextview.setText(nip);
+            nrejTextView.setVisibility(View.VISIBLE);
+            nboczTextView.setVisibility(View.VISIBLE);
+            nlicTextView.setVisibility(View.VISIBLE);
+            dlicTextView.setVisibility(View.VISIBLE);
+            nTextView.setVisibility(View.VISIBLE);
+            foundOne=0;
+            inputMethodManager.hideSoftInputFromWindow((null == getCurrentFocus()) ? null : getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
+            } else{
+                Toast toast = Toast.makeText(getApplicationContext(),"Nie znaleziono takiego numeru",Toast.LENGTH_LONG);
+                toast.show();
+            }
 
         }
     }
@@ -126,8 +160,26 @@ public class MainActivity extends AppCompatActivity {
         dataLicencjiTextView = findViewById(R.id.dataLicencjiTextView);
         nipTextview = findViewById(R.id.nipTextView);
         editText = findViewById(R.id.editText);
+        nrejTextView = findViewById(R.id.nrejTextView);
+        nboczTextView = findViewById(R.id.nboczTextView);
+        nlicTextView = findViewById(R.id.nlicTextView);
+        dlicTextView = findViewById(R.id.dlicTextView);
+        nTextView = findViewById(R.id.nTextView);
+
+        editText.setOnEditorActionListener(new EditText.OnEditorActionListener(){
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
+                if(actionId== EditorInfo.IME_ACTION_DONE){
+                    getInfo(null);
+                    return true;
+                }
+                return false;
+            }
+
+
+        });
+
     }
-
-
 
 }
