@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -41,11 +42,22 @@ public class MainActivity extends AppCompatActivity {
     public class GetInfo extends AsyncTask<Void, Void, Void>{
 
         String data = "";
+        String dataParsed = "www";
+        String name = "";
+        String numerRej = "";
+        String numerBoczny = "";
+        String numerLicencji = "";
+        String dataLicencji = "";
+        String nip = "";
+
+        JSONObject searchObject;
 
         @Override
         protected Void doInBackground(Void... voids) {
             try{
                 URL url = new URL("https://www.gdansk.pl/files/xml/wykaz-taksowek-z-licencjami.json");
+//                URL url = new URL("https://api.myjson.com/bins/j5f6b");
+
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 InputStream inputStream = httpURLConnection.getInputStream();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
@@ -55,9 +67,38 @@ public class MainActivity extends AppCompatActivity {
                     data = data + line;
                 }
 
+
+                //Na numer boczny
+                JSONObject JA = new JSONObject(data);
+                JSONArray JW = JA.getJSONArray("results");
+
+                for (int i = 0; i<JW.length(); i++){
+                    JSONObject JO = JW.getJSONObject(i);
+
+                    numerBoczny = JO.getString("numerBoczny");
+
+//                    Log.i("Wyjście1", JO.getString("password"));
+
+                    if(numerBoczny.equals("2106")){
+
+                        numerRej = JO.getString("numerRejestracyjny");
+                        numerBoczny = JO.getString("numerBoczny");
+                        numerLicencji = JO.getString("numerLicencji");
+                        dataLicencji = JO.getString("dataLicencji");
+                        nip = JO.getString("nip");
+                    }
+
+                }
+
+                //Na numer rejestracyjny
+
+
+
             }catch(MalformedURLException e){
                 e.printStackTrace();
             }catch (IOException e){
+                e.printStackTrace();
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
             return null;
@@ -66,7 +107,12 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid){
             super.onPostExecute(aVoid);
-            textView.setText(data);
+//            textView.setText(dataParsed);
+            numerRejestracyjnyTextView.setText(numerRej);
+            numerBocznyTextView.setText(numerBoczny);
+            numerLicencjiTextView.setText(numerLicencji);
+            dataLicencjiTextView.setText(dataLicencji);
+            nipTextview.setText(nip);
 
         }
     }
