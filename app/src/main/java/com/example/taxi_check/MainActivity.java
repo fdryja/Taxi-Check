@@ -24,10 +24,13 @@ import java.nio.Buffer;
 public class MainActivity extends AppCompatActivity {
     CheckBox checkBox;
     TextView textView;
+    TextView numerRejestracyjnyTextView;
+    TextView numerBocznyTextView;
+    TextView numerLicencjiTextView;
+    TextView dataLicencjiTextView;
+    TextView nipTextview;
 
     public void getInfo(View view){
-//        DownloadTask task = new DownloadTask();
-//        task.execute("https://www.gdansk.pl/files/xml/wykaz-taksowek-z-licencjami.json");
         GetInfo task = new GetInfo();
         task.execute();
     }
@@ -73,7 +76,11 @@ public class MainActivity extends AppCompatActivity {
 
         checkBox = findViewById(R.id.checkBox);
         textView = findViewById(R.id.textView);
-
+        numerRejestracyjnyTextView = findViewById(R.id.numerRejestracyjnyTextView);
+        numerBocznyTextView = findViewById(R.id.numerBocznyTextView);
+        numerLicencjiTextView = findViewById(R.id.numerLicencjiTextView);
+        dataLicencjiTextView = findViewById(R.id.dataLicencjiTextView);
+        nipTextview = findViewById(R.id.nipTextView);
     }
 
     public void isChecked(View view){
@@ -84,62 +91,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-
-//    public class DownloadTask extends AsyncTask<String, Void, String> {
-//
-//        @Override
-//        protected String doInBackground(String... urls) {
-//            String json = "";
-//            URL url;
-//            HttpURLConnection urlConnection = null;
-//
-//            try {
-//                url = new URL("https://www.gdansk.pl/files/xml/wykaz-taksowek-z-licencjami.json");
-//                urlConnection = (HttpURLConnection) url.openConnection();
-//                InputStream inputStream = urlConnection.getInputStream();
-//                InputStreamReader reader = new InputStreamReader(inputStream);
-//                int data = reader.read();
-//                while (data != -1){
-//                    char current = (char) data;
-//                    json += current;
-//                    data = reader.read();
-//                }
-//                return json;
-//            } catch (MalformedURLException e) {
-//                e.printStackTrace();
-//                return "Błąd";
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//                return "Błąd";
-//
-//            }
-//
-//
-//
-//        }
-//
-//        @Override
-//        protected void onPostExecute(String s) {
-//            super.onPostExecute(s);
-//
-//            try {
-//                JSONObject jsonObject = new JSONObject(s);
-//                String weatherInfo = jsonObject.getString("weather");
-//                JSONArray array = new JSONArray(weatherInfo);
-//                String message = "";
-//                for(int i = 0; i<array.length();i++){
-//                    JSONObject jsonPart = array.getJSONObject(i);
-//                    String main = jsonPart.getString("main");
-//                    String description = jsonPart.getString("description");
-//                    if(!main.equals("")&&!description.equals("")){
-//                        message+=main+":"+description + "\n";
-//                    }
-//                }
-////                weatherTextView.setText(message);
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
 }
