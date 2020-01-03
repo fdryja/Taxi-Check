@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     TextView numerLicencjiTextView;
     TextView dataLicencjiTextView;
     TextView nipTextview;
+    EditText editText;
 
     public void getInfo(View view){
         GetInfo task = new GetInfo();
@@ -64,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid){
             super.onPostExecute(aVoid);
-            textView.setText(this.data);
+            textView.setText(data);
 
         }
     }
@@ -81,13 +83,16 @@ public class MainActivity extends AppCompatActivity {
         numerLicencjiTextView = findViewById(R.id.numerLicencjiTextView);
         dataLicencjiTextView = findViewById(R.id.dataLicencjiTextView);
         nipTextview = findViewById(R.id.nipTextView);
+        editText = findViewById(R.id.editText);
     }
 
     public void isChecked(View view){
         if(checkBox.isChecked()){
             checkBox.setText("Number boczny");
-        }else{
+            editText.setHint("Number boczny");
+        }else {
             checkBox.setText("Numer rejestracyjny");
+            editText.setHint("Number rejestracyjny");
         }
     }
 
