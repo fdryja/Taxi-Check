@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -159,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
         nlicTextView = findViewById(R.id.nlicTextView);
         dlicTextView = findViewById(R.id.dlicTextView);
         nTextView = findViewById(R.id.nTextView);
+
 
         editText.setOnEditorActionListener(new EditText.OnEditorActionListener(){
             @Override
