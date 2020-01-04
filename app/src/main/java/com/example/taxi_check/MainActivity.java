@@ -3,17 +3,12 @@ package com.example.taxi_check;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
-import android.hardware.input.InputManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.transition.Fade;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,7 +24,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.Buffer;
 
 public class MainActivity extends AppCompatActivity {
     TextView textView;
