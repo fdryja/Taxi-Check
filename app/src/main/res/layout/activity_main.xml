@@ -27,6 +27,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/taxicheck" />
 
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_corner_wh"
+        android:onClick="getInfo"
+        android:text="Sprawdź"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText" />
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -40,6 +52,32 @@
         app:layout_constraintHorizontal_bias="0.511"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button" />
+
+    <Button
+        android:id="@+id/wyszukajNipButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="496dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rounded_corner_wh"
+        android:onClick="loadNip"
+        android:text="Wyszukaj NIP"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/kopiujNipButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="496dp"
+        android:background="@drawable/rounded_corner_wh"
+        android:onClick="copyNip"
+        android:text="Kopiuj NIP"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/nlicTextView"
@@ -140,18 +178,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nlicTextView" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/rounded_corner_wh"
-        android:onClick="getInfo"
-        android:text="Sprawdź"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
-
     <TextView
         android:id="@+id/numerRejestracyjnyTextView"
         android:layout_width="wrap_content"
@@ -168,12 +194,12 @@
 
     <EditText
         android:id="@+id/editText"
-        android:layout_width="300dp"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:background="@drawable/rounded_corner"
         android:ems="10"
-        android:hint="Numer rejestracyjny/boczny"
+        android:hint="Wpisz numer rejestracyjny/boczny"
         android:imeOptions="actionDone"
         android:inputType="textPersonName"
         android:padding="10dp"
@@ -214,5 +240,26 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/numerRejestracyjnyTextView" />
+
+    <WebView
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="0dp">
+
+    </WebView>
+
+    <Button
+        android:id="@+id/goBackButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_corner_wh"
+        android:onClick="goBack"
+        android:text="Powrót"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

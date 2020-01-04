@@ -2,6 +2,8 @@ package com.example.taxi_check;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,6 +11,10 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,12 +41,17 @@ public class MainActivity extends AppCompatActivity {
     TextView nipTextview;
     EditText editText;
     String info = "";
+    Button kopiujNipButton;
+    Button button;
+    Button wyszukajNipButton;
     TextView nrejTextView;
     TextView nboczTextView;
     TextView nlicTextView;
     TextView dlicTextView;
     TextView nTextView;
-
+    String copyNip = "";
+    WebView webView;
+    Button goBackButton;
 
     public void getInfo(View view){
         GetInfo task = new GetInfo();
@@ -97,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
                         numerLicencji = JO.getString("numerLicencji");
                         dataLicencji = JO.getString("dataLicencji");
                         nip = JO.getString("nip");
+                        copyNip = nip;
                         foundOne++;
                         break;
                     }
@@ -132,6 +144,8 @@ public class MainActivity extends AppCompatActivity {
             nlicTextView.setVisibility(View.VISIBLE);
             dlicTextView.setVisibility(View.VISIBLE);
             nTextView.setVisibility(View.VISIBLE);
+            kopiujNipButton.setVisibility(View.VISIBLE);
+            wyszukajNipButton.setVisibility(View.VISIBLE);
             foundOne=0;
             inputMethodManager.hideSoftInputFromWindow((null == getCurrentFocus()) ? null : getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
@@ -143,6 +157,31 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void copyNip(View view) {
+        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("copied", copyNip);
+        clipboard.setPrimaryClip(clip);
+        Toast toast = Toast.makeText(getApplicationContext(),"Skopiowano do schowka",Toast.LENGTH_SHORT);
+        toast.show();
+    }
+    public void loadNip(View view){
+        wyszukajNipButton.setVisibility(View.INVISIBLE);
+        kopiujNipButton.setVisibility(View.INVISIBLE);
+        button.setVisibility(View.INVISIBLE);
+        webView.setWebViewClient(new WebViewClient());
+        webView.loadUrl("https://wyszukiwarkaregon.stat.gov.pl/appBIR/index.aspx");
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        webView.setVisibility(View.VISIBLE);
+        goBackButton.setVisibility(View.VISIBLE);
+    }
+    public void goBack(View view){
+        webView.setVisibility(View.INVISIBLE);
+        goBackButton.setVisibility(View.INVISIBLE);
+        wyszukajNipButton.setVisibility(View.VISIBLE);
+        kopiujNipButton.setVisibility(View.VISIBLE);
+        button.setVisibility(View.VISIBLE);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -160,7 +199,11 @@ public class MainActivity extends AppCompatActivity {
         nlicTextView = findViewById(R.id.nlicTextView);
         dlicTextView = findViewById(R.id.dlicTextView);
         nTextView = findViewById(R.id.nTextView);
-
+        webView = findViewById(R.id.webView);
+        wyszukajNipButton = findViewById(R.id.wyszukajNipButton);
+        kopiujNipButton = findViewById(R.id.kopiujNipButton);
+        button = findViewById(R.id.button);
+        goBackButton = findViewById(R.id.goBackButton);
 
         editText.setOnEditorActionListener(new EditText.OnEditorActionListener(){
             @Override
@@ -178,4 +221,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        if(webView.getVisibility() == View.VISIBLE){
+            goBack(null);
+        }else{
+            super.onBackPressed();
+        }
+
+    }
 }
